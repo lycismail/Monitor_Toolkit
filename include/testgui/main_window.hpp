@@ -63,7 +63,7 @@ public Q_SLOTS:
     /******************************************
     ** Manual connections
     *******************************************/
-    void updateLoggingView(); // no idea why this can't connect automatically
+//    void updateLoggingView(); // no idea why this can't connect automatically
 
     void on_pushButton_clicked();
 

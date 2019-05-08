@@ -62,14 +62,14 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     cout << "2222222222222222222222221" << endl;
     ReadSettings();
 	setWindowIcon(QIcon(":/images/icon.png"));
-	ui.tab_manager->setCurrentIndex(0); // ensure the first tab is showing - qt-designer should have this already hardwired, but often loses it (settings?).
+    //ui.tabWidget->setCurrentIndex(0); // ensure the first tab is showing - qt-designer should have this already hardwired, but often loses it (settings?).
     QObject::connect(&qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
 
 	/*********************
 	** Logging
 	**********************/
-	ui.view_logging->setModel(qnode.loggingModel());
-    QObject::connect(&qnode, SIGNAL(loggingUpdated()), this, SLOT(updateLoggingView()));
+//	ui.view_logging->setModel(qnode.loggingModel());
+//    QObject::connect(&qnode, SIGNAL(loggingUpdated()), this, SLOT(updateLoggingView()));
 
     /*********************
     ** Auto Start
@@ -150,9 +150,9 @@ void MainWindow::on_checkbox_use_environment_stateChanged(int state) {
  * this will drop the cursor down to the last line in the QListview to ensure
  * the user can always see the latest log message.
  */
-void MainWindow::updateLoggingView() {
-        ui.view_logging->scrollToBottom();
-}
+//void MainWindow::updateLoggingView() {
+//        ui.view_logging->scrollToBottom();
+//}
 
 /*****************************************************************************
 ** Implementation [Menu]
@@ -230,12 +230,11 @@ void MainWindow::show_G4_NET_status()
     int status = sensor_ping.net_flag[G4_NET];    
     if( status == 0)
     {
-        cout << "settttttttttt" << endl;
         this->ui.net_status->setStyleSheet("background-color: rgb(0, 255, 0)");
-        this->ui.net_status->setText("Ping_OK");
+//        this->ui.net_status->setText("OK");
     }else{
         this->ui.net_status->setStyleSheet("background-color: rgb(255, 0, 0)");
-        this->ui.net_status->setText("Ping_ERROR");
+//        this->ui.net_status->setText("ERROR");
     }
 }
 void MainWindow::show_IBEO_ECU_status()
@@ -243,9 +242,9 @@ void MainWindow::show_IBEO_ECU_status()
     int status = sensor_ping.net_flag[IBEO_ECU];
     if( status == 0)
     {
-        this->ui.ibeo_ECU_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.ibeo_ECU_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.ibeo_ECU_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.ibeo_ECU_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.ibeo_ECU_msg->setText(QString::number(qnode.sensor_msg_count[IBEO_ECU],10));
     this->ui.ibeo_ECU_hz->setText(QString::number(qnode.msg_speed[IBEO_ECU],10));
@@ -255,9 +254,9 @@ void MainWindow::show_VLP16FL_status()
     int status = sensor_ping.net_flag[VLP16FL];
     if( status == 0)
     {
-        this->ui.velodyne_frontleft_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.velodyne_frontleft_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.velodyne_frontleft_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.velodyne_frontleft_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.velodyne_frontleft_msg->setText(QString::number(qnode.sensor_msg_count[VLP16FL],10));
     this->ui.velodyne_frontleft_hz->setText(QString::number(qnode.msg_speed[VLP16FL],10));
@@ -267,9 +266,9 @@ void MainWindow::show_VLP16FR_status()
     int status = sensor_ping.net_flag[VLP16FR];
     if( status == 0)
     {
-        this->ui.velodyne_frontright_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.velodyne_frontright_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.velodyne_frontright_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.velodyne_frontright_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.velodyne_frontright_msg->setText(QString::number(qnode.sensor_msg_count[VLP16FR],10));
     this->ui.velodyne_frontright_hz->setText(QString::number(qnode.msg_speed[VLP16FR],10));
@@ -279,9 +278,9 @@ void MainWindow::show_VLP16R_status()
     int status = sensor_ping.net_flag[VLP16R];
     if( status == 0)
     {
-        this->ui.velodyne_right_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.velodyne_right_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.velodyne_right_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.velodyne_right_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.velodyne_right_msg->setText(QString::number(qnode.sensor_msg_count[VLP16R],10));
     this->ui.velodyne_right_hz->setText(QString::number(qnode.msg_speed[VLP16R],10));
@@ -291,9 +290,9 @@ void MainWindow::show_VLP16L_status()
     int status = sensor_ping.net_flag[VLP16L];
     if( status == 0)
     {
-        this->ui.velodyne_left_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.velodyne_left_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.velodyne_left_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.velodyne_left_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.velodyne_left_msg->setText(QString::number(qnode.sensor_msg_count[VLP16L],10));
     this->ui.velodyne_left_hz->setText(QString::number(qnode.msg_speed[VLP16L],10));
@@ -303,9 +302,9 @@ void MainWindow::show_VLP16REAR_status()
     int status = sensor_ping.net_flag[VLP16REAR];
     if( status == 0)
     {
-        this->ui.velodyne_rear_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.velodyne_rear_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.velodyne_rear_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.velodyne_rear_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.velodyne_rear_msg->setText(QString::number(qnode.sensor_msg_count[VLP16REAR],10));
     this->ui.velodyne_rear_hz->setText(QString::number(qnode.msg_speed[VLP16REAR],10));
@@ -315,9 +314,9 @@ void MainWindow::show_SICK_status()
     int status = sensor_ping.net_flag[SICK];
     if( status == 0)
     {
-        this->ui.sick_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.sick_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.sick_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.sick_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.sick_msg->setText(QString::number(qnode.sensor_msg_count[SICK],10));
     this->ui.sick_hz->setText(QString::number(qnode.msg_speed[SICK],10));
@@ -327,9 +326,9 @@ void MainWindow::show_PANDAR_status()
     int status = sensor_ping.net_flag[PANDAR];
     if( status == 0)
     {
-        this->ui.pandar_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.pandar_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.pandar_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.pandar_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.pandar_msg->setText(QString::number(qnode.sensor_msg_count[PANDAR],10));
     this->ui.pandar_hz->setText(QString::number(qnode.msg_speed[PANDAR],10));
@@ -339,9 +338,9 @@ void MainWindow::show_CAN_status()
     int status = sensor_ping.net_flag[CAN];
     if( status == 0)
     {
-        this->ui.CAN_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.CAN_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.CAN_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.CAN_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.CAN_msg->setText(QString::number(qnode.sensor_msg_count[CAN],10));
     this->ui.CAN_hz->setText(QString::number(qnode.msg_speed[CAN],10));
@@ -351,9 +350,9 @@ void MainWindow::show_RTK_status()
     int status = sensor_ping.net_flag[RTK];
     if( status == 0)
     {
-        this->ui.GNSS_status->setStyleSheet("background-color: rgb(0, 255, 0);border-radius:10px;");
+        this->ui.GNSS_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
     }else{
-        this->ui.GNSS_status->setStyleSheet("background-color: rgb(255, 0, 0);border-radius:10px;");
+        this->ui.GNSS_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
     this->ui.GNSS_msg->setText(QString::number(qnode.sensor_msg_count[RTK],10));
     this->ui.GNSS_hz->setText(QString::number(qnode.msg_speed[RTK],10));
