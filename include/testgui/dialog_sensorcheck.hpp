@@ -15,7 +15,7 @@ public:
     explicit Dialog_sensorcheck(QWidget *parent = 0);
     ~Dialog_sensorcheck();
 
-private:
+//private:
     Ui::Dialog_sensorcheck *ui;
 };
 

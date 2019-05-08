@@ -18,6 +18,7 @@
 #include <QTimer>
 #include "sensor_status.hpp"
 #include <iostream>
+#include "dialog_sensorcheck.hpp"
 using namespace std;
 
 /*****************************************************************************
@@ -48,7 +49,7 @@ public:
     QTimer * output_t;
     QTimer * hz_t;
     MyThread sensor_ping;
-
+    //Dialog_sensorcheck * a;
     //void show_RTK_status();
 
 public Q_SLOTS:
@@ -83,7 +84,7 @@ public Q_SLOTS:
     void show_RTK_status();
 
 
-
+    void on_actionSensors_triggered();
 
 private:
 	Ui::MainWindowDesign ui;

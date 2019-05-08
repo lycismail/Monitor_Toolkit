@@ -12,6 +12,10 @@
 #include <QtGui>
 #include <QMessageBox>
 #include "../include/testgui/main_window.hpp"
+#include "../include/testgui/dialog_sensorcheck.hpp"
+#include <iostream>
+#include "ui_dialog_sensorcheck.h"
+using namespace std;
 
 
 /*****************************************************************************
@@ -33,7 +37,7 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     cout << "-10" << endl;
     QTimer * output_t = new QTimer(this);
     QTimer * hz_t = new QTimer(this);
-
+//    a = new Dialog_sensorcheck;
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_throttle()));
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_G4_NET_status()));
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_IBEO_ECU_status()));
@@ -236,6 +240,7 @@ void MainWindow::show_G4_NET_status()
         this->ui.net_status->setStyleSheet("background-color: rgb(255, 0, 0)");
 //        this->ui.net_status->setText("ERROR");
     }
+
 }
 void MainWindow::show_IBEO_ECU_status()
 {
@@ -367,3 +372,11 @@ void MainWindow::show_RTK_status()
 
 
 
+
+void testgui::MainWindow::on_actionSensors_triggered()
+{
+    cout << "enter action" << endl;
+    Dialog_sensorcheck a;
+    //a.ui->label->setText(QString::number(qnode.throttle_sub,10,4));
+    a.exec();
+}
