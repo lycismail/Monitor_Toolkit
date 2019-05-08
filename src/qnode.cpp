@@ -85,7 +85,7 @@ bool QNode::init() {
     CANadapter = n.subscribe("/vehicle/status",1,&QNode::CANadapter_Callback,this);
     pandar_scan = n.subscribe("/sensor/pandar/packets",1,&QNode::pandar_scanCallback,this);
 
-    rtk_sub = nh_.subscribe("/sensor/gnss/odom", 1, &QNode::rtkCallback,this);
+    rtk_sub = n.subscribe("/sensor/gnss/odom", 1, &QNode::rtkCallback,this);
 
 
 
@@ -216,6 +216,10 @@ void QNode::pandar_scanCallback(const sensor_msgs::PointCloud2 &msg)
 void QNode::CANadapter_Callback(const autodrive_msgs::VehicleStatus &msg)
 {
     sensor_msg_count[CAN]++;
+}
+void QNode::rtkCallback( const nav_msgs::Odometry::ConstPtr &gnss ){
+    //gnss_status = int(gnss->twist.covariance[0]);
+    sensor_msg_count[RTK]++;
 }
 
 

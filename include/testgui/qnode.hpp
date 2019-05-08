@@ -93,8 +93,7 @@ public:
     void sick_scanCallback(const sensor_msgs::LaserScan &msg);
     void pandar_scanCallback(const sensor_msgs::PointCloud2 &msg);
     void CANadapter_Callback(const autodrive_msgs::VehicleStatus &msg);
-
-    //void rtkCallback( const nav_msgs::Odometry::ConstPtr &gnss );
+    void rtkCallback( const nav_msgs::Odometry::ConstPtr &gnss );
     //    void ibeofr_pointCallback(const sensor_msgs::PointCloud2 &msg);
     //    void ibeorl_pointCallback(const sensor_msgs::PointCloud2 &msg);
     //    void ibeorr_pointCallback(const sensor_msgs::PointCloud2 &msg);
