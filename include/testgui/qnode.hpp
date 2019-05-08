@@ -129,7 +129,7 @@ private:
     ros::Subscriber sick_scan;
     ros::Subscriber CANadapter;
     ros::Subscriber pandar_scan;
-
+    ros::Subscriber rtk_sub;
 
     QStringListModel logging_model;
 

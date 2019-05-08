@@ -85,7 +85,7 @@ bool QNode::init() {
     CANadapter = n.subscribe("/vehicle/status",1,&QNode::CANadapter_Callback,this);
     pandar_scan = n.subscribe("/sensor/pandar/packets",1,&QNode::pandar_scanCallback,this);
 
-    //rtk_scan = nh_.subscribe("/sensor/gnss/odom", 1, &(rtkCallback));
+    rtk_sub = nh_.subscribe("/sensor/gnss/odom", 1, &QNode::rtkCallback,this);
 
 
 
