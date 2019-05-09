@@ -115,10 +115,10 @@ void QNode::run() {
 
 		std_msgs::String msg;
 		std::stringstream ss;
-		ss << "hello world " << count;
+        //ss << "hello world " << count;
 		msg.data = ss.str();
 		chatter_publisher.publish(msg);
-		log(Info,std::string("I sent: ")+msg.data);
+        //log(Info,std::string("I sent: ")+msg.data);
 		ros::spinOnce();
 		loop_rate.sleep();
 		++count;
@@ -182,6 +182,7 @@ void QNode::ibeoECU_pointCallback(const sensor_msgs::PointCloud2 & msg)
 }
 void QNode::vlp16fl_scanCallback(const velodyne_msgs::VelodyneScan &msg)
 {
+    cout << "enter callback" << endl;
     sensor_msg_count[VLP16FL]++;
 }
 void QNode::vlp16fr_scanCallback(const velodyne_msgs::VelodyneScan &msg)

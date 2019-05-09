@@ -369,7 +369,7 @@ void MainWindow::show_sensor_hz()
     for(int i=0; i<SENSER_MAX; i++)
     {
         qnode.msg_speed[i] = qnode.sensor_msg_count[i] - qnode.last_msg_count[i];
-        qnode.last_msg_count[i] = qnode.msg_speed[i];
+        qnode.last_msg_count[i] = qnode.sensor_msg_count[i];
     }
     this->ui.ibeo_ECU_hz->setText(QString::number(qnode.msg_speed[IBEO_ECU],10));
     this->ui.velodyne_frontleft_hz->setText(QString::number(qnode.msg_speed[VLP16FL],10));
