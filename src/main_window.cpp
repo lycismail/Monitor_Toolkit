@@ -62,6 +62,8 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
 //    connect(output_t, SIGNAL(timeout()), this, SLOT(qnode.throttle_status()));
 
     sensor_ping.start();
+//    qnode.start();
+
 
     cout << "-30" << endl;
     output_t->start(500);
