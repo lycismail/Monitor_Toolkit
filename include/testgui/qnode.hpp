@@ -55,14 +55,14 @@ public:
 	void run();
 
     double throttle_sub;
+    double brake_sub;
+    double steer_sub;
     ros::Time time_ref;
     int seq_ref;
     ros::Time time_ros;
     unsigned int sensor_msg_count[SENSER_MAX];
     unsigned int msg_speed[SENSER_MAX];
     unsigned int last_msg_count[SENSER_MAX];
-
-    void sensor_hz_cal();
 
 	/*********************
 	** Logging

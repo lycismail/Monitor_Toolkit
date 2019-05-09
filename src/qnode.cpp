@@ -47,14 +47,7 @@ QNode::~QNode() {
     }
 	wait();
 }
-void QNode::sensor_hz_cal()
-{
-    for(int i=0; i<SENSER_MAX; i++)
-    {
-        msg_speed[i] = sensor_msg_count[i] -last_msg_count[i];
-        last_msg_count[i] = msg_speed[i];
-    }
-}
+
 
 bool QNode::init() {
 	ros::init(init_argc,init_argv,"testgui");
@@ -174,6 +167,8 @@ void QNode::GetCarControlCallback(const autodrive_msgs::Control::ConstPtr &_msg)
     //std::cout << "huidiaochenggong" << std::endl;
     //std::cout << _msg->throttle << std::endl;
     throttle_sub = _msg->throttle;
+    brake_sub = _msg->brake;
+    steer_sub = _msg->steer_target;
 }
 void QNode::timeCallback(const sensor_msgs::TimeReference::ConstPtr & msg)
 {
@@ -221,6 +216,8 @@ void QNode::rtkCallback( const nav_msgs::Odometry::ConstPtr &gnss ){
     //gnss_status = int(gnss->twist.covariance[0]);
     sensor_msg_count[RTK]++;
 }
+
+
 
 
 //}  // namespace testgui

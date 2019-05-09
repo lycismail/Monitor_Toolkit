@@ -1,5 +1,7 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>images/icon.png</file>
+        <file>images/progress_picture.jpg</file>
+        <file>images/steer.jpg</file>
     </qresource>
 </RCC>

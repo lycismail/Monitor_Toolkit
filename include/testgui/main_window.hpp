@@ -49,6 +49,12 @@ public:
     QTimer * output_t;
     QTimer * hz_t;
     MyThread sensor_ping;
+
+    QPixmap pixmap;
+    QImage img_progress;
+    QPixmap PixmapToRound(QPixmap &src, int radius); //for steer picture change shape from rect to round
+
+
     //Dialog_sensorcheck * a;
     //void show_RTK_status();
 
@@ -82,6 +88,13 @@ public Q_SLOTS:
     void show_PANDAR_status();
     void show_CAN_status();
     void show_RTK_status();
+
+    void show_sensor_hz();
+    void show_sensor_msgs();
+
+//    void throttle_ProBar();
+//    void brake_ProBar();
+//    void steer_picshow();
 
 
     void on_actionSensors_triggered();

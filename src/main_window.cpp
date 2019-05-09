@@ -15,7 +15,12 @@
 #include "../include/testgui/dialog_sensorcheck.hpp"
 #include <iostream>
 #include "ui_dialog_sensorcheck.h"
+#include <ros/package.h>
+#include <string.h>
 using namespace std;
+extern "C"
+{
+}
 
 
 /*****************************************************************************
@@ -50,30 +55,27 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_PANDAR_status()));
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_CAN_status()));
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_RTK_status()));
-    connect(output_t, SIGNAL(timeout()), this, SLOT(qnode.sensor_hz_cal()));
+    connect(hz_t, SIGNAL(timeout()), this, SLOT(show_sensor_hz()));
+    connect(output_t, SIGNAL(timeout()), this, SLOT(show_sensor_msgs()));
+//    connect(output_t, SIGNAL(timeout()), this, SLOT(qnode.steer_status()));
+//    connect(output_t, SIGNAL(timeout()), this, SLOT(qnode.brake_status()));
+//    connect(output_t, SIGNAL(timeout()), this, SLOT(qnode.throttle_status()));
 
-
-    cout << "-20" << endl;
     sensor_ping.start();
-//    connect(this->ui.pingallsensor,SIGNAL(clicked(bool)),this,SLOT(this->sensor_ping_func()));
+
     cout << "-30" << endl;
     output_t->start(500);
     hz_t->start(1000);
-    cout << "000000000000000000" << endl;
-    cout << "1111111111111111111" << endl;
+
 	ui.setupUi(this); // Calling this incidentally connects all ui's triggers to on_...() callbacks in this class.
     QObject::connect(ui.actionAbout_Qt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt())); // qApp is a global variable for the application
-    cout << "2222222222222222222222221" << endl;
     ReadSettings();
 	setWindowIcon(QIcon(":/images/icon.png"));
     //ui.tabWidget->setCurrentIndex(0); // ensure the first tab is showing - qt-designer should have this already hardwired, but often loses it (settings?).
     QObject::connect(&qnode, SIGNAL(rosShutdown()), this, SLOT(close()));
 
-	/*********************
-	** Logging
-	**********************/
-//	ui.view_logging->setModel(qnode.loggingModel());
-//    QObject::connect(&qnode, SIGNAL(loggingUpdated()), this, SLOT(updateLoggingView()));
+
+
 
     /*********************
     ** Auto Start
@@ -88,11 +90,7 @@ MainWindow::~MainWindow() {}
 /*****************************************************************************
 ** Implementation [Slots]
 *****************************************************************************/
-//void MainWindow::sensor_ping_func()
-//{
-//    cout << "-40" << endl;
-//    sensor_ping.run();
-//}
+
 void MainWindow::show_throttle()
 {
     //cout << "jinru" << endl;
@@ -208,7 +206,7 @@ void MainWindow::WriteSettings() {
 void MainWindow::closeEvent(QCloseEvent *event)
 {
 	WriteSettings();
-    sensor_ping.stop;
+//    sensor_ping.stop;
 	QMainWindow::closeEvent(event);
 }
 
@@ -251,8 +249,6 @@ void MainWindow::show_IBEO_ECU_status()
     }else{
         this->ui.ibeo_ECU_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.ibeo_ECU_msg->setText(QString::number(qnode.sensor_msg_count[IBEO_ECU],10));
-    this->ui.ibeo_ECU_hz->setText(QString::number(qnode.msg_speed[IBEO_ECU],10));
 }
 void MainWindow::show_VLP16FL_status()
 {
@@ -263,8 +259,6 @@ void MainWindow::show_VLP16FL_status()
     }else{
         this->ui.velodyne_frontleft_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.velodyne_frontleft_msg->setText(QString::number(qnode.sensor_msg_count[VLP16FL],10));
-    this->ui.velodyne_frontleft_hz->setText(QString::number(qnode.msg_speed[VLP16FL],10));
 }
 void MainWindow::show_VLP16FR_status()
 {
@@ -275,8 +269,6 @@ void MainWindow::show_VLP16FR_status()
     }else{
         this->ui.velodyne_frontright_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.velodyne_frontright_msg->setText(QString::number(qnode.sensor_msg_count[VLP16FR],10));
-    this->ui.velodyne_frontright_hz->setText(QString::number(qnode.msg_speed[VLP16FR],10));
 }
 void MainWindow::show_VLP16R_status()
 {
@@ -287,8 +279,6 @@ void MainWindow::show_VLP16R_status()
     }else{
         this->ui.velodyne_right_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.velodyne_right_msg->setText(QString::number(qnode.sensor_msg_count[VLP16R],10));
-    this->ui.velodyne_right_hz->setText(QString::number(qnode.msg_speed[VLP16R],10));
 }
 void MainWindow::show_VLP16L_status()
 {
@@ -299,8 +289,6 @@ void MainWindow::show_VLP16L_status()
     }else{
         this->ui.velodyne_left_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.velodyne_left_msg->setText(QString::number(qnode.sensor_msg_count[VLP16L],10));
-    this->ui.velodyne_left_hz->setText(QString::number(qnode.msg_speed[VLP16L],10));
 }
 void MainWindow::show_VLP16REAR_status()
 {
@@ -311,8 +299,6 @@ void MainWindow::show_VLP16REAR_status()
     }else{
         this->ui.velodyne_rear_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.velodyne_rear_msg->setText(QString::number(qnode.sensor_msg_count[VLP16REAR],10));
-    this->ui.velodyne_rear_hz->setText(QString::number(qnode.msg_speed[VLP16REAR],10));
 }
 void MainWindow::show_SICK_status()
 {
@@ -323,8 +309,6 @@ void MainWindow::show_SICK_status()
     }else{
         this->ui.sick_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.sick_msg->setText(QString::number(qnode.sensor_msg_count[SICK],10));
-    this->ui.sick_hz->setText(QString::number(qnode.msg_speed[SICK],10));
 }
 void MainWindow::show_PANDAR_status()
 {
@@ -335,8 +319,6 @@ void MainWindow::show_PANDAR_status()
     }else{
         this->ui.pandar_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.pandar_msg->setText(QString::number(qnode.sensor_msg_count[PANDAR],10));
-    this->ui.pandar_hz->setText(QString::number(qnode.msg_speed[PANDAR],10));
 }
 void MainWindow::show_CAN_status()
 {
@@ -347,8 +329,6 @@ void MainWindow::show_CAN_status()
     }else{
         this->ui.CAN_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.CAN_msg->setText(QString::number(qnode.sensor_msg_count[CAN],10));
-    this->ui.CAN_hz->setText(QString::number(qnode.msg_speed[CAN],10));
 }
 void MainWindow::show_RTK_status()
 {
@@ -359,8 +339,58 @@ void MainWindow::show_RTK_status()
     }else{
         this->ui.GNSS_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
-    this->ui.GNSS_msg->setText(QString::number(qnode.sensor_msg_count[RTK],10));
+}
+
+
+QPixmap MainWindow::PixmapToRound(QPixmap &src, int radius)
+{
+    if (src.isNull())
+    {
+        return QPixmap();
+    }
+    QSize size(2*radius, 2*radius);
+    QBitmap mask(size);
+    QPainter painter(&mask);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.fillRect(0, 0, size.width(), size.height(), Qt::white);
+    painter.setBrush(QColor(0, 0, 0));
+    painter.drawRoundedRect(0, 0, size.width(), size.height(), 99, 99);
+    QPixmap image = src.scaled(size);
+    image.setMask(mask);
+    return image;
+}
+
+void MainWindow::show_sensor_hz()
+{
+    for(int i=0; i<SENSER_MAX; i++)
+    {
+        qnode.msg_speed[i] = qnode.sensor_msg_count[i] - qnode.last_msg_count[i];
+        qnode.last_msg_count[i] = qnode.msg_speed[i];
+    }
+    this->ui.ibeo_ECU_hz->setText(QString::number(qnode.msg_speed[IBEO_ECU],10));
+    this->ui.velodyne_frontleft_hz->setText(QString::number(qnode.msg_speed[VLP16FL],10));
+    this->ui.velodyne_frontright_hz->setText(QString::number(qnode.msg_speed[VLP16FR],10));
+    this->ui.velodyne_right_hz->setText(QString::number(qnode.msg_speed[VLP16R],10));
+    this->ui.velodyne_left_hz->setText(QString::number(qnode.msg_speed[VLP16L],10));
+    this->ui.velodyne_rear_hz->setText(QString::number(qnode.msg_speed[VLP16REAR],10));
+    this->ui.sick_hz->setText(QString::number(qnode.msg_speed[SICK],10));
+    this->ui.pandar_hz->setText(QString::number(qnode.msg_speed[PANDAR],10));
+    this->ui.CAN_hz->setText(QString::number(qnode.msg_speed[CAN],10));
     this->ui.GNSS_hz->setText(QString::number(qnode.msg_speed[RTK],10));
+}
+void MainWindow::show_sensor_msgs()
+{
+    this->ui.ibeo_ECU_msg->setText(QString::number(qnode.sensor_msg_count[IBEO_ECU],10));
+    this->ui.velodyne_frontleft_msg->setText(QString::number(qnode.sensor_msg_count[VLP16FL],10));
+    this->ui.velodyne_frontright_msg->setText(QString::number(qnode.sensor_msg_count[VLP16FR],10));
+    this->ui.velodyne_right_msg->setText(QString::number(qnode.sensor_msg_count[VLP16R],10));
+    this->ui.velodyne_left_msg->setText(QString::number(qnode.sensor_msg_count[VLP16L],10));
+    this->ui.velodyne_rear_msg->setText(QString::number(qnode.sensor_msg_count[VLP16REAR],10));
+    this->ui.sick_msg->setText(QString::number(qnode.sensor_msg_count[SICK],10));
+    this->ui.pandar_msg->setText(QString::number(qnode.sensor_msg_count[PANDAR],10));
+    this->ui.CAN_msg->setText(QString::number(qnode.sensor_msg_count[CAN],10));
+    this->ui.GNSS_msg->setText(QString::number(qnode.sensor_msg_count[RTK],10));
 }
 
 
