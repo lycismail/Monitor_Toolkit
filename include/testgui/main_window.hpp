@@ -92,6 +92,8 @@ public Q_SLOTS:
     void show_sensor_hz();
     void show_sensor_msgs();
 
+    void error_beep();
+
 //    void throttle_ProBar();
 //    void brake_ProBar();
 //    void steer_picshow();

@@ -57,6 +57,7 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_RTK_status()));
     connect(hz_t, SIGNAL(timeout()), this, SLOT(show_sensor_hz()));
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_sensor_msgs()));
+    connect(output_t, SIGNAL(timeout()), this, SLOT(error_beep()));
 //    connect(output_t, SIGNAL(timeout()), this, SLOT(qnode.steer_status()));
 //    connect(output_t, SIGNAL(timeout()), this, SLOT(qnode.brake_status()));
 //    connect(output_t, SIGNAL(timeout()), this, SLOT(qnode.throttle_status()));
@@ -393,6 +394,22 @@ void MainWindow::show_sensor_msgs()
     this->ui.pandar_msg->setText(QString::number(qnode.sensor_msg_count[PANDAR],10));
     this->ui.CAN_msg->setText(QString::number(qnode.sensor_msg_count[CAN],10));
     this->ui.GNSS_msg->setText(QString::number(qnode.sensor_msg_count[RTK],10));
+}
+
+void MainWindow::error_beep()
+{
+    for(int i = 0; i < SENSER_MAX ; i ++)
+    {
+        if(qnode.msg_speed[i] <= 3)
+        {
+            sensor_ping.beep_flag = 1;
+            break;
+        }
+        else
+        {
+            sensor_ping.beep_flag = 0;
+        }
+    }
 }
 
 

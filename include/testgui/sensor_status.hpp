@@ -25,6 +25,8 @@ public:
     int check_sensor_network(std::string svrip);
     void run();
     int net_flag[20];
+    int beep_flag;
+    int beep_flag_ping;
 };
 
 #endif // SENSOR_STATUS_HPP

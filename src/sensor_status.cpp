@@ -8,6 +8,8 @@ MyThread::MyThread(QObject *parent) :
     QThread(parent)
 {
     stop = false;
+    beep_flag = 0;
+    beep_flag_ping = 0;
     for( int i = 0; i <20; i++)
         net_flag[i] = 0;
 }
@@ -26,6 +28,7 @@ int MyThread::check_sensor_network(string svrip)
     }
     cmd_char[i] = '\0';
     //printf("cmd = %s\n",cmd);
+
     status = system(cmd_char);
     if (-1 == status)
     {
@@ -58,5 +61,33 @@ void MyThread::run()
         net_flag[8] = check_sensor_network(net_PANDAR);
         net_flag[9] = check_sensor_network(net_CAN);
         net_flag[10] = check_sensor_network(net_RTK);
+
+        for(int i = 0; i < 11; i++)
+        {
+            if(net_flag[i] != 0)
+            {
+                beep_flag_ping = 1;
+                break;
+            }
+            else
+            {
+                beep_flag_ping = 0;
+            }
+        }
+
+        if(beep_flag == 1 || beep_flag_ping == 1)
+        {
+            cout << "enter judge beep" << endl;
+            string cmd1 = "aplay ~/22222.wav";
+            char cmd_char1[50];
+            cout << cmd1;
+            int j = 0;
+            for( j=0; j<cmd1.length();j++)
+            {
+                cmd_char1[j] = cmd1[j];
+            }
+            cmd_char1[j] = '\0';
+            system(cmd_char1);
+        }
     }
 }
