@@ -11,8 +11,11 @@
 #define net_VLP16REAR   "192.168.0.203"
 #define net_SICK        "192.168.1.41"
 #define net_PANDAR      "192.168.1.201"
-#define net_CAN         "192.168.1.111"
-#define net_RTK         "192.168.1.222"
+#define net_CAN         "www.baidu.com"
+#define net_RTK         "www.baidu.com"
+#define net_MATRIX0         "192.168.0.10"
+#define net_MATRIX1         "192.168.0.11"
+#define net_MATRIX2         "192.168.0.12"
 //#define SENSER_MAX  20
 
 

@@ -61,8 +61,12 @@ void MyThread::run()
         net_flag[8] = check_sensor_network(net_PANDAR);
         net_flag[9] = check_sensor_network(net_CAN);
         net_flag[10] = check_sensor_network(net_RTK);
+        net_flag[11] = check_sensor_network(net_MATRIX0);
+        net_flag[12] = check_sensor_network(net_MATRIX1);
+        net_flag[13] = check_sensor_network(net_MATRIX2);
 
-        for(int i = 0; i < 11; i++)
+
+        for(int i = 0; i < 14; i++)
         {
             if(net_flag[i] != 0)
             {
@@ -78,7 +82,7 @@ void MyThread::run()
         if(beep_flag == 1 || beep_flag_ping == 1)
         {
             cout << "enter judge beep" << endl;
-            string cmd1 = "aplay ~/22222.wav";
+            string cmd1 = "espeak 'sensor has problem'";
             char cmd_char1[50];
             cout << cmd1;
             int j = 0;

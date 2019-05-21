@@ -30,6 +30,7 @@
 #include <sensor_msgs/LaserScan.h>
 #include <sensor_msgs/point_cloud2_iterator.h>
 #include <sensor_msgs/TimeReference.h>
+#include <sensor_msgs/Image.h>
 #include <nav_msgs/Odometry.h>
 #include "VehicleStatus.hpp"
 
@@ -43,7 +44,7 @@ namespace testgui {
 /*****************************************************************************
 ** Class
 *****************************************************************************/
-enum SENSER_ID{G4_NET,IBEO_ECU,VLP16FL,VLP16FR,VLP16R,VLP16L,VLP16REAR,SICK,PANDAR,CAN,RTK,SENSER_MAX};
+enum SENSER_ID{G4_NET,IBEO_ECU,VLP16FL,VLP16FR,VLP16R,VLP16L,VLP16REAR,SICK,PANDAR,CAN,RTK,MATRIX0,MATRIX1,MATRIX2,SENSER_MAX};
 
 class QNode : public QThread {
     Q_OBJECT
@@ -93,6 +94,9 @@ public:
     void sick_scanCallback(const sensor_msgs::LaserScan &msg);
     void pandar_scanCallback(const sensor_msgs::PointCloud2 &msg);
     void CANadapter_Callback(const autodrive_msgs::VehicleStatus &msg);
+    void Matrix0_Callback(const sensor_msgs::Image &msg);
+    void Matrix1_Callback(const sensor_msgs::Image &msg);
+    void Matrix2_Callback(const sensor_msgs::Image &msg);
     void rtkCallback( const nav_msgs::Odometry::ConstPtr &gnss );
     //    void ibeofr_pointCallback(const sensor_msgs::PointCloud2 &msg);
     //    void ibeorl_pointCallback(const sensor_msgs::PointCloud2 &msg);
@@ -129,6 +133,10 @@ private:
     ros::Subscriber CANadapter;
     ros::Subscriber pandar_scan;
     ros::Subscriber rtk_sub;
+
+    ros::Subscriber matrix0;
+    ros::Subscriber matrix1;
+    ros::Subscriber matrix2;
 
     QStringListModel logging_model;
 

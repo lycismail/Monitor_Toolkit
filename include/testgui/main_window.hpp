@@ -88,6 +88,10 @@ public Q_SLOTS:
     void show_PANDAR_status();
     void show_CAN_status();
     void show_RTK_status();
+    void show_MATRIX0_status();
+    void show_MATRIX1_status();
+    void show_MATRIX2_status();
+
 
     void show_sensor_hz();
     void show_sensor_msgs();

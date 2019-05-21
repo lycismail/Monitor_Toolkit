@@ -55,6 +55,9 @@ MainWindow::MainWindow(int argc, char** argv, QWidget *parent)
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_PANDAR_status()));
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_CAN_status()));
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_RTK_status()));
+    connect(output_t, SIGNAL(timeout()), this, SLOT(show_MATRIX0_status()));
+    connect(output_t, SIGNAL(timeout()), this, SLOT(show_MATRIX1_status()));
+    connect(output_t, SIGNAL(timeout()), this, SLOT(show_MATRIX2_status()));
     connect(hz_t, SIGNAL(timeout()), this, SLOT(show_sensor_hz()));
     connect(output_t, SIGNAL(timeout()), this, SLOT(show_sensor_msgs()));
     connect(output_t, SIGNAL(timeout()), this, SLOT(error_beep()));
@@ -343,6 +346,36 @@ void MainWindow::show_RTK_status()
         this->ui.GNSS_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
     }
 }
+void MainWindow::show_MATRIX0_status()
+{
+    int status = sensor_ping.net_flag[MATRIX0];
+    if( status == 0)
+    {
+        this->ui.matrix0_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
+    }else{
+        this->ui.matrix0_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
+    }
+}
+void MainWindow::show_MATRIX1_status()
+{
+    int status = sensor_ping.net_flag[MATRIX1];
+    if( status == 0)
+    {
+        this->ui.matrix1_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
+    }else{
+        this->ui.matrix1_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
+    }
+}
+void MainWindow::show_MATRIX2_status()
+{
+    int status = sensor_ping.net_flag[MATRIX2];
+    if( status == 0)
+    {
+        this->ui.matrix2_status->setStyleSheet("background-color: rgb(0, 255, 0) ");
+    }else{
+        this->ui.matrix2_status->setStyleSheet("background-color: rgb(255, 0, 0) ");
+    }
+}
 
 
 QPixmap MainWindow::PixmapToRound(QPixmap &src, int radius)
@@ -381,6 +414,9 @@ void MainWindow::show_sensor_hz()
     this->ui.pandar_hz->setText(QString::number(qnode.msg_speed[PANDAR],10));
     this->ui.CAN_hz->setText(QString::number(qnode.msg_speed[CAN],10));
     this->ui.GNSS_hz->setText(QString::number(qnode.msg_speed[RTK],10));
+    this->ui.matrix0_hz->setText(QString::number(qnode.msg_speed[MATRIX0],10));
+    this->ui.matrix1_hz->setText(QString::number(qnode.msg_speed[MATRIX1],10));
+    this->ui.matrix2_hz->setText(QString::number(qnode.msg_speed[MATRIX2],10));
 }
 void MainWindow::show_sensor_msgs()
 {
@@ -394,11 +430,14 @@ void MainWindow::show_sensor_msgs()
     this->ui.pandar_msg->setText(QString::number(qnode.sensor_msg_count[PANDAR],10));
     this->ui.CAN_msg->setText(QString::number(qnode.sensor_msg_count[CAN],10));
     this->ui.GNSS_msg->setText(QString::number(qnode.sensor_msg_count[RTK],10));
+    this->ui.matrix0_msg->setText(QString::number(qnode.sensor_msg_count[MATRIX0],10));
+    this->ui.matrix1_msg->setText(QString::number(qnode.sensor_msg_count[MATRIX1],10));
+    this->ui.matrix2_msg->setText(QString::number(qnode.sensor_msg_count[MATRIX2],10));
 }
 
 void MainWindow::error_beep()
 {
-    for(int i = 0; i < SENSER_MAX ; i ++)
+    for(int i = 1; i < SENSER_MAX ; i ++)
     {
         if(qnode.msg_speed[i] <= 3)
         {

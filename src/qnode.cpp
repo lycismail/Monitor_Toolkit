@@ -76,7 +76,12 @@ bool QNode::init() {
 
     sick_scan = n.subscribe("/sensor/sick/scan",1,&QNode::sick_scanCallback,this);
     CANadapter = n.subscribe("/vehicle/status",1,&QNode::CANadapter_Callback,this);
-    pandar_scan = n.subscribe("/sensor/pandar/packets",1,&QNode::pandar_scanCallback,this);
+    pandar_scan = n.subscribe("/sensor/pandar40p/PointCloud2",1,&QNode::pandar_scanCallback,this);
+
+    matrix0 = n.subscribe("/sensor/matrix0/image1",1,&QNode::Matrix0_Callback,this);
+    matrix1 = n.subscribe("/sensor/matrix1/image1",1,&QNode::Matrix1_Callback,this);
+    matrix2 = n.subscribe("/sensor/matrix2/image1",1,&QNode::Matrix2_Callback,this);
+
 
     rtk_sub = n.subscribe("/sensor/gnss/odom", 1, &QNode::rtkCallback,this);
 
@@ -217,7 +222,18 @@ void QNode::rtkCallback( const nav_msgs::Odometry::ConstPtr &gnss ){
     //gnss_status = int(gnss->twist.covariance[0]);
     sensor_msg_count[RTK]++;
 }
-
+void QNode::Matrix0_Callback(const sensor_msgs::Image &msg)
+{
+    sensor_msg_count[MATRIX0]++;
+}
+void QNode::Matrix1_Callback(const sensor_msgs::Image &msg)
+{
+    sensor_msg_count[MATRIX1]++;
+}
+void QNode::Matrix2_Callback(const sensor_msgs::Image &msg)
+{
+    sensor_msg_count[MATRIX2]++;
+}
 
 
 
